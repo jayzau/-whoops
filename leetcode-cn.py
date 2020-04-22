@@ -47,11 +47,19 @@ class Solution:
             return result
         return _get_child_nodes([], [root])
 
+    def generateParenthesis(self, n: int) -> List[str]:
+        """22. 括号生成"""
+        lst = [1 for _ in range(n)] + [-1 for _ in range(n)]
+        result = []
+
+        return result
+
 
 if __name__ == '__main__':
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
     # opt = Solution().numberOfSubarrays([2, 2, 2, 1, 2, 2, 1, 2, 2, 2], 2)
 
-    # print(opt)
+    opt = Solution().generateParenthesis(6)
+    print(opt)
     pass
 
