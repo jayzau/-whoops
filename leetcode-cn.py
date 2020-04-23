@@ -49,17 +49,38 @@ class Solution:
 
     def generateParenthesis(self, n: int) -> List[str]:
         """22. 括号生成"""
-        lst = [1 for _ in range(n)] + [-1 for _ in range(n)]
         result = []
-
-        return result
+        if not n:
+            return result
+        data = [1 for _ in range(n)] + [-1 for _ in range(n)]       # ( 转换为 1   ) 转换为 -1
+        rst = [1]           # 完整括号肯定由 ( 开头
+        data.remove(1)
+        lst = [(rst, data)]
+        while lst:
+            lst_bak = []
+            for (_rst, _data) in lst:
+                for i in [1, -1]:           # 依次取出  (  )
+                    if i not in _data:
+                        continue
+                    _rst_bak = _rst[:]
+                    _rst_bak.append(i)
+                    if sum(_rst_bak) < 0:       # 相加 小于0说明 ) 多了
+                        continue
+                    _data_bak = _data[:]
+                    _data_bak.remove(i)
+                    if _data_bak:
+                        lst_bak.append((_rst_bak, _data_bak))
+                    else:
+                        result.append(_rst_bak)
+            lst = lst_bak[:]
+        return ["".join(["(" if i == 1 else ")" for i in each]) for each in result]     # 数字转化成()
 
 
 if __name__ == '__main__':
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
     # opt = Solution().numberOfSubarrays([2, 2, 2, 1, 2, 2, 1, 2, 2, 2], 2)
 
-    opt = Solution().generateParenthesis(6)
+    opt = Solution().generateParenthesis(11)
     print(opt)
     pass
 
