@@ -168,6 +168,12 @@ class Solution:
             results.append([base_low, base_high])
         return results
 
+    def minDistance(self, word1: str, word2: str) -> int:
+        """72. 编辑距离
+        https://leetcode-cn.com/problems/edit-distance/
+        """
+        return 1
+
 
 def run():
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
@@ -181,7 +187,8 @@ def run():
     # opt = Solution().canJump([3, 2, 1, 0, 4])
     # opt = Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]])
     # opt = Solution().merge([[1, 4], [4, 5]])
-    opt = Solution().merge([[1, 4], [0, 4]])
+    opt = Solution().minDistance(word1="horse", word2="ros")
+    # opt = Solution().minDistance(word1="intention", word2="execution")
     print(opt)
 
 
