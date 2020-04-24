@@ -93,7 +93,8 @@ class Solution:
     def trap(self, height: List[int]) -> int:
         """42. 接雨水
         https://leetcode-cn.com/problems/trapping-rain-water/
-        光荣超时
+        拉闸
+        光荣超时:https://leetcode-cn.com/submissions/detail/65325877/testcase/
         """
         water = 0
         if not height:
@@ -116,14 +117,28 @@ class Solution:
                     height[index] += 1
         return water
 
+    def reversePairs(self, nums: List[int]) -> int:
+        """面试题51. 数组中的逆序对
+        https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/
+        拉闸
+        光荣超时:https://leetcode-cn.com/submissions/detail/65503938/testcase/
+        """
+        result = 0
+        for index, num in enumerate(nums):
+            for n in nums[index + 1:]:
+                if num > n:
+                    result += 1
+        return result
+
 
 def run():
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
     # opt = Solution().numberOfSubarrays([2, 2, 2, 1, 2, 2, 1, 2, 2, 2], 2)
     # opt = Solution().generateParenthesis(11)
     # opt = Solution().waysToChange(11)       # 崩了崩了
-    opt = Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
+    # opt = Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
     # opt = Solution().trap([4, 2, 3])
+    opt = Solution().reversePairs([7, 5, 6, 4])
     print(opt)
 
 
