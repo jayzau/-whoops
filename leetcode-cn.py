@@ -148,6 +148,26 @@ class Solution:
                 return False
         return True
 
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        """56. 合并区间
+        https://leetcode-cn.com/problems/merge-intervals/
+        """
+        if not intervals:
+            return intervals
+        results = []
+        intervals.sort(key=lambda x: x[0])
+        base_low, base_high = intervals[0]
+        for (low, high) in intervals[1:]:
+            if low <= base_high:
+                if high > base_high:
+                    base_high = high
+            else:
+                results.append([base_low, base_high])
+                base_low, base_high = low, high
+        else:
+            results.append([base_low, base_high])
+        return results
+
 
 def run():
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
@@ -158,7 +178,10 @@ def run():
     # opt = Solution().trap([4, 2, 3])
     # opt = Solution().reversePairs([7, 5, 6, 4])
     # opt = Solution().canJump([2, 3, 1, 1, 4])
-    opt = Solution().canJump([3, 2, 1, 0, 4])
+    # opt = Solution().canJump([3, 2, 1, 0, 4])
+    # opt = Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]])
+    # opt = Solution().merge([[1, 4], [4, 5]])
+    opt = Solution().merge([[1, 4], [0, 4]])
     print(opt)
 
 
