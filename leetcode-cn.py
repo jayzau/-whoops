@@ -130,6 +130,24 @@ class Solution:
                     result += 1
         return result
 
+    def canJump(self, nums: List[int]) -> bool:
+        """55. 跳跃游戏
+        https://leetcode-cn.com/problems/jump-game/
+        """
+        nums_reverse = nums[::-1]
+        nums_length = len(nums)
+        l_pointer = r_pointer = 0  # 双指针
+        while l_pointer != nums_length - 1:
+            if r_pointer < nums_length:
+                r_value = nums_reverse[r_pointer]
+                distance = r_pointer - l_pointer
+                if r_value >= distance:
+                    l_pointer = r_pointer
+                r_pointer += 1
+            else:
+                return False
+        return True
+
 
 def run():
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
@@ -138,7 +156,9 @@ def run():
     # opt = Solution().waysToChange(11)       # 崩了崩了
     # opt = Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
     # opt = Solution().trap([4, 2, 3])
-    opt = Solution().reversePairs([7, 5, 6, 4])
+    # opt = Solution().reversePairs([7, 5, 6, 4])
+    # opt = Solution().canJump([2, 3, 1, 1, 4])
+    opt = Solution().canJump([3, 2, 1, 0, 4])
     print(opt)
 
 
