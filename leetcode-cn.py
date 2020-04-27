@@ -172,7 +172,58 @@ class Solution:
         """72. 编辑距离
         https://leetcode-cn.com/problems/edit-distance/
         """
-        return 1
+        if not word1:
+            return len(word2)
+        if not word2:
+            return len(word1)
+        word2_length = len(word2)
+        placeholder = (word2_length - 1) * "X"
+        word1_bak = placeholder + word1 + placeholder
+        word1_bak_length = len(word1_bak)
+        # 遍历出重合度最高的
+        contact_ratio = 0
+        lst = []
+        distance = len(word1) if len(word1) > word2_length else word2_length    # 最大步数莫过于此
+        for i in range(word1_bak_length - (word2_length - 1)):
+            cut = word1_bak[i:i + word2_length]
+            index_list = []
+            max_count = len(index_list)
+            index_list_bak = []
+            for index in range(word2_length):
+                if cut[index] == word2[index]:
+                    index_list.append(i + index)
+                else:
+                    if len(index_list) >= max_count:
+                        max_count = len(index_list)
+                        index_list_bak = index_list[:]
+                    index_list.clear()
+            else:
+                if len(index_list) >= max_count:
+                    max_count = len(index_list)
+                    index_list_bak = index_list[:]
+            # print(cut, word2, i, max_count, end_index)
+            if max_count >= contact_ratio:  # 连续重合度较高了
+                if max_count > contact_ratio:
+                    lst.clear()
+                contact_ratio = max_count
+                word2_bak = "X" * i + word2 + "X" * (word1_bak_length - (i + word2_length))
+                lst.append((word1_bak, word2_bak, index_list_bak))
+
+        for word1_bak, word2_bak, index_list_bak in lst:
+            if contact_ratio:
+                word1_bak_l = word1_bak[:index_list_bak[0]].replace("X", "")
+                word2_bak_l = word2_bak[:index_list_bak[0] - contact_ratio].replace("X", "")
+                word1_bak_r = word1_bak[index_list_bak[-1] + 1:].replace("X", "")
+                word2_bak_r = word2_bak[index_list_bak[-1] + 1:].replace("X", "")
+                _distance = self.minDistance(word1_bak_l, word2_bak_l) + self.minDistance(word1_bak_r, word2_bak_r)
+            else:   # 一个相同的都没有
+                _distance = max([
+                    len(word1_bak.replace("X", "")),
+                    len(word2_bak.replace("X", ""))
+                ])
+            if _distance < distance:
+                distance = _distance
+        return distance
 
 
 def run():
@@ -187,8 +238,10 @@ def run():
     # opt = Solution().canJump([3, 2, 1, 0, 4])
     # opt = Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]])
     # opt = Solution().merge([[1, 4], [4, 5]])
-    opt = Solution().minDistance(word1="horse", word2="ros")
+    # opt = Solution().minDistance(word1="horse", word2="ros")
     # opt = Solution().minDistance(word1="intention", word2="execution")
+    opt = Solution().minDistance(word1="zoologicoarchae", word2="zoopsych")
+    # opt = Solution().minDistance(word1="zoologicoarchaeologist", word2="zoopsychologist")
     print(opt)
 
 
