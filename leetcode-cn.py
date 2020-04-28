@@ -171,6 +171,7 @@ class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
         """72. 编辑距离
         https://leetcode-cn.com/problems/edit-distance/
+        拉闸 面向测试用例编程失败
         """
         if not word1:
             return len(word2)
@@ -201,7 +202,7 @@ class Solution:
                 if len(index_list) >= max_count:
                     max_count = len(index_list)
                     index_list_bak = index_list[:]
-            # print(cut, word2, i, max_count, end_index)
+
             if max_count >= contact_ratio:  # 连续重合度较高了
                 if max_count > contact_ratio:
                     lst.clear()
@@ -212,7 +213,7 @@ class Solution:
         for word1_bak, word2_bak, index_list_bak in lst:
             if contact_ratio:
                 word1_bak_l = word1_bak[:index_list_bak[0]].replace("X", "")
-                word2_bak_l = word2_bak[:index_list_bak[0] - contact_ratio].replace("X", "")
+                word2_bak_l = word2_bak[:index_list_bak[0]].replace("X", "")
                 word1_bak_r = word1_bak[index_list_bak[-1] + 1:].replace("X", "")
                 word2_bak_r = word2_bak[index_list_bak[-1] + 1:].replace("X", "")
                 _distance = self.minDistance(word1_bak_l, word2_bak_l) + self.minDistance(word1_bak_r, word2_bak_r)
@@ -240,8 +241,8 @@ def run():
     # opt = Solution().merge([[1, 4], [4, 5]])
     # opt = Solution().minDistance(word1="horse", word2="ros")
     # opt = Solution().minDistance(word1="intention", word2="execution")
-    opt = Solution().minDistance(word1="zoologicoarchae", word2="zoopsych")
     # opt = Solution().minDistance(word1="zoologicoarchaeologist", word2="zoopsychologist")
+    opt = Solution().minDistance(word1="abcdxabcde", word2="abcdeabcdx")
     print(opt)
 
 
