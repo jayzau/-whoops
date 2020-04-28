@@ -11,6 +11,12 @@ class TreeNode:
         self.right = None
 
 
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
 class Solution:
     def numberOfSubarrays(self, nums: List[int], k: int) -> int:
         """1248. 统计「优美子数组」
@@ -244,6 +250,13 @@ class Solution:
                 result.append(nums[i])
         return result
 
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        """23. 合并K个排序链表
+        https://leetcode-cn.com/problems/merge-k-sorted-lists/
+        不想写笨方法
+        """
+        pass
+
 
 def run():
     # opt = Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3)
@@ -262,7 +275,17 @@ def run():
     # opt = Solution().minDistance(word1="zoologicoarchaeologist", word2="zoopsychologist")
     # opt = Solution().minDistance(word1="abcdxabcde", word2="abcdeabcdx")
     # opt = Solution().singleNumbers(nums=[4, 1, 4, 6])
-    opt = Solution().singleNumbers(nums=[1, 2, 10, 4, 1, 4, 3, 3])
+    # opt = Solution().singleNumbers(nums=[1, 2, 10, 4, 1, 4, 3, 3])
+    l1 = ListNode(1)
+    l1.next = ListNode(4)
+    l1.next.next = ListNode(5)
+    l2 = ListNode(1)
+    l2.next = ListNode(3)
+    l2.next.next = ListNode(5)
+    l3 = ListNode(2)
+    l3.next = ListNode(6)
+    lists = [l1, l2, l3]
+    opt = Solution().mergeKLists(lists=lists)
     print(opt)
 
 
