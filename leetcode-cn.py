@@ -184,7 +184,7 @@ class Solution:
         # 遍历出重合度最高的
         contact_ratio = 0
         lst = []
-        distance = len(word1) if len(word1) > word2_length else word2_length    # 最大步数莫过于此
+        distance = len(word1) if len(word1) > word2_length else word2_length  # 最大步数莫过于此
         for i in range(word1_bak_length - (word2_length - 1)):
             cut = word1_bak[i:i + word2_length]
             index_list = []
@@ -217,7 +217,7 @@ class Solution:
                 word1_bak_r = word1_bak[index_list_bak[-1] + 1:].replace("X", "")
                 word2_bak_r = word2_bak[index_list_bak[-1] + 1:].replace("X", "")
                 _distance = self.minDistance(word1_bak_l, word2_bak_l) + self.minDistance(word1_bak_r, word2_bak_r)
-            else:   # 一个相同的都没有
+            else:  # 一个相同的都没有
                 _distance = max([
                     len(word1_bak.replace("X", "")),
                     len(word2_bak.replace("X", ""))
@@ -225,6 +225,24 @@ class Solution:
             if _distance < distance:
                 distance = _distance
         return distance
+
+    def singleNumbers(self, nums: List[int]) -> List[int]:
+        """面试题56 - I. 数组中数字出现的次数
+        https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/
+        仅仅能过关 官方推荐异或运算^
+        """
+        if len(nums) == 1:
+            return nums
+        nums.sort()
+        result = []
+        if nums[0] != nums[1]:
+            result.append(nums[0])
+        if nums[-1] != nums[-2] and nums[-1] not in result:
+            result.append(nums[-1])
+        for i in range(1, len(nums) - 1):
+            if nums[i - 1] != nums[i] and nums[i] != nums[i + 1]:
+                result.append(nums[i])
+        return result
 
 
 def run():
@@ -242,7 +260,9 @@ def run():
     # opt = Solution().minDistance(word1="horse", word2="ros")
     # opt = Solution().minDistance(word1="intention", word2="execution")
     # opt = Solution().minDistance(word1="zoologicoarchaeologist", word2="zoopsychologist")
-    opt = Solution().minDistance(word1="abcdxabcde", word2="abcdeabcdx")
+    # opt = Solution().minDistance(word1="abcdxabcde", word2="abcdeabcdx")
+    # opt = Solution().singleNumbers(nums=[4, 1, 4, 6])
+    opt = Solution().singleNumbers(nums=[1, 2, 10, 4, 1, 4, 3, 3])
     print(opt)
 
 
