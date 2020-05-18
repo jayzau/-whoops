@@ -179,58 +179,25 @@ class Solution:
         https://leetcode-cn.com/problems/edit-distance/
         拉闸 面向测试用例编程失败
         """
-        if not word1:
-            return len(word2)
-        if not word2:
-            return len(word1)
-        word2_length = len(word2)
-        placeholder = (word2_length - 1) * "X"
-        word1_bak = placeholder + word1 + placeholder
-        word1_bak_length = len(word1_bak)
-        # 遍历出重合度最高的
-        contact_ratio = 0
-        lst = []
-        distance = len(word1) if len(word1) > word2_length else word2_length  # 最大步数莫过于此
-        for i in range(word1_bak_length - (word2_length - 1)):
-            cut = word1_bak[i:i + word2_length]
-            index_list = []
-            max_count = len(index_list)
-            index_list_bak = []
-            for index in range(word2_length):
-                if cut[index] == word2[index]:
-                    index_list.append(i + index)
-                else:
-                    if len(index_list) >= max_count:
-                        max_count = len(index_list)
-                        index_list_bak = index_list[:]
-                    index_list.clear()
+        mem = dict()
+
+        def dp(i, j):
+            if (i, j) in mem:
+                return mem[(i, j)]
+            if i == -1:     # 触底
+                mem[(i, j)] = j + 1
+            elif j == -1:     # 触底
+                mem[(i, j)] = i + 1
+            elif word1[i] == word2[j]:
+                mem[(i, j)] = dp(i - 1, j - 1)
             else:
-                if len(index_list) >= max_count:
-                    max_count = len(index_list)
-                    index_list_bak = index_list[:]
-
-            if max_count >= contact_ratio:  # 连续重合度较高了
-                if max_count > contact_ratio:
-                    lst.clear()
-                contact_ratio = max_count
-                word2_bak = "X" * i + word2 + "X" * (word1_bak_length - (i + word2_length))
-                lst.append((word1_bak, word2_bak, index_list_bak))
-
-        for word1_bak, word2_bak, index_list_bak in lst:
-            if contact_ratio:
-                word1_bak_l = word1_bak[:index_list_bak[0]].replace("X", "")
-                word2_bak_l = word2_bak[:index_list_bak[0]].replace("X", "")
-                word1_bak_r = word1_bak[index_list_bak[-1] + 1:].replace("X", "")
-                word2_bak_r = word2_bak[index_list_bak[-1] + 1:].replace("X", "")
-                _distance = self.minDistance(word1_bak_l, word2_bak_l) + self.minDistance(word1_bak_r, word2_bak_r)
-            else:  # 一个相同的都没有
-                _distance = max([
-                    len(word1_bak.replace("X", "")),
-                    len(word2_bak.replace("X", ""))
-                ])
-            if _distance < distance:
-                distance = _distance
-        return distance
+                mem[(i, j)] = min(
+                    dp(i, j - 1) + 1,   # 插入操作
+                    dp(i - 1, j) + 1,   # 删除操作
+                    dp(i - 1, j - 1) + 1,   # 替换操作
+                )
+            return mem[(i, j)]
+        return dp(len(word1) - 1, len(word2) - 1)
 
     def singleNumbers(self, nums: List[int]) -> List[int]:
         """面试题56 - I. 数组中数字出现的次数
@@ -273,19 +240,19 @@ def run():
     # opt = Solution().minDistance(word1="horse", word2="ros")
     # opt = Solution().minDistance(word1="intention", word2="execution")
     # opt = Solution().minDistance(word1="zoologicoarchaeologist", word2="zoopsychologist")
-    # opt = Solution().minDistance(word1="abcdxabcde", word2="abcdeabcdx")
+    opt = Solution().minDistance(word1="abcdxabcde", word2="abcdeabcdx")
     # opt = Solution().singleNumbers(nums=[4, 1, 4, 6])
     # opt = Solution().singleNumbers(nums=[1, 2, 10, 4, 1, 4, 3, 3])
-    l1 = ListNode(1)
-    l1.next = ListNode(4)
-    l1.next.next = ListNode(5)
-    l2 = ListNode(1)
-    l2.next = ListNode(3)
-    l2.next.next = ListNode(5)
-    l3 = ListNode(2)
-    l3.next = ListNode(6)
-    lists = [l1, l2, l3]
-    opt = Solution().mergeKLists(lists=lists)
+    # l1 = ListNode(1)
+    # l1.next = ListNode(4)
+    # l1.next.next = ListNode(5)
+    # l2 = ListNode(1)
+    # l2.next = ListNode(3)
+    # l2.next.next = ListNode(5)
+    # l3 = ListNode(2)
+    # l3.next = ListNode(6)
+    # lists = [l1, l2, l3]
+    # opt = Solution().mergeKLists(lists=lists)
     print(opt)
 
 
