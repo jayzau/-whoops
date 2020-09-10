@@ -117,3 +117,30 @@ var combine = function(n, k) {
     return result
 };
 
+// ------------------------------------------------------------------------
+// --------------------------- D9: 39. 组合总和-----------------------------
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+    var newCandidates = candidates.filter(function(x){
+        return x<=target
+    });
+    var results = [];
+    newCandidates.forEach(function(num, index){
+        var difference = target - num;
+        if (difference > 0){
+            var _results = combinationSum(newCandidates.slice(index), difference);
+            _results.forEach(function(_result){
+                _result.push(num);
+                results.push(_result)
+            })
+        }
+        if (difference === 0){
+            results.push([num])
+        }
+    });
+    return results
+};
