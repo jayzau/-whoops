@@ -144,3 +144,43 @@ var combinationSum = function(candidates, target) {
     });
     return results
 };
+
+// ------------------------------------------------------------------------
+// --------------------------- D10: 40. 组合总和 II-------------------------
+// --------------------------- 在 D9 上加了个去重.. -------------------------
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum2 = function(candidates, target) {
+    var newCandidates = candidates.filter(function(x){
+        return x<=target
+    });
+    var results = [];
+    var results_str = [];
+    newCandidates.forEach(function(num, index){
+        var difference = target - num;
+        if (difference > 0){
+            var _results = combinationSum2(newCandidates.slice(index + 1), difference);
+            _results.forEach(function(_result){
+                _result.push(num);
+                _result.sort();
+                var _result_str = _result.toString();
+                if (results_str.indexOf(_result_str) === -1){
+                    results_str.push(_result_str);
+                    results.push(_result)
+                }
+            })
+        }
+        if (difference === 0){
+            var _result = [num];
+            var _result_str = _result.toString();
+            if (results_str.indexOf(_result_str) === -1){
+                results_str.push(_result_str);
+                results.push(_result)
+            }
+        }
+    });
+    return results
+};
