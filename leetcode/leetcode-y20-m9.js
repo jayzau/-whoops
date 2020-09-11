@@ -184,3 +184,39 @@ var combinationSum2 = function(candidates, target) {
     });
     return results
 };
+
+// ------------------------------------------------------------------------
+// --------------------------- D11: 216. 组合总和 III-----------------------
+/**
+ * @param {number} k
+ * @param {number} n
+ * @return {number[][]}
+ */
+var combinationSum3 = function(k, n) {
+    const nums = [1,2,3,4,5,6,7,8,9];
+    let current = [];
+    const result = [];
+    const set = new Set();
+    const bt = (index, rest, target) => {
+        if(rest === 0 && target !== 0 || index > nums.length) {
+            return;
+        }
+
+        if(rest === 0 && target === 0) {
+            const currentSetItem = current.slice().sort((a, b) => a - b).join('|');
+            if(!set.has(currentSetItem)) {
+                result.push(current.slice());
+                set.add(currentSetItem);
+            }
+            return;
+        }
+
+        current.push(nums[index]);
+        bt(index + 1, k - current.length, target - nums[index]);
+        current.pop();
+        bt(index + 1, k - current.length, target);
+    };
+
+    bt(0, k, n);
+    return result;
+};
